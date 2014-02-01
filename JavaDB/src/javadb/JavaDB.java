@@ -17,6 +17,10 @@ public class JavaDB {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        MySQLConnection mysql= new MySQLConnection();
+        mysql.connect("//195.98.74.37","root","!QAX2wsz");
+        
+        
     }
     
 }
