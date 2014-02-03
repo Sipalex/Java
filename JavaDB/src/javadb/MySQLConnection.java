@@ -19,7 +19,19 @@ import java.sql.Statement;
 public class MySQLConnection {
     
     private final static String createDatabaseQuery="CREATE DATABASE bookstore CHARACTER SET utf8 COLLATE utf8_general_ci";
+    private final static String createTableQuery=
+            "CREATE TABLE `books` (" +
+            "  `id` int(11) NOT NULL auto_increment," +
+            "  `title` varchar(50) default NULL," +
+            "  `comment` varchar(100) default NULL," +
+            "  `price` double default NULL," +
+            "  `author` varchar(50) default NULL," +
+            "  PRIMARY KEY  (`id`)" +
+            ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+            
     
+        
+        
     
     public void connect(String parturl, String user, String password){
         Connection connection = null;
@@ -32,18 +44,21 @@ public class MySQLConnection {
         pln("Driver loading success");
         
         //String url=("jdbc:mysql://195.98.74.37/vrndor");
-        String url=("jdbc:mysql:"+parturl);
+        String url=("jdbc:mysql:"+parturl+"/vrndor");
         //String url=("jdbc:mysql://bora.beget.ru");
                
         
             try{
+                pln(url+"|"+user+"|"+password);
                 connection = DriverManager.getConnection(url,user,password);
                 pln("Connected");
                 statement = connection.createStatement();
                 
+                pln(createTableQuery);
                 /*connection.close();;
                 pln("disonnected");*/
-                statement.executeUpdate(createDatabaseQuery);
+                //statement.executeUpdate(createDatabaseQuery);
+                statement.executeUpdate(createTableQuery);
                 
 
             }catch (Exception e){
@@ -52,6 +67,8 @@ public class MySQLConnection {
                 if(statement!=null){
                   try{
                       statement.close();
+                      pln("table created");
+                      
                   } catch (SQLException e){
                       e.printStackTrace();
                       
